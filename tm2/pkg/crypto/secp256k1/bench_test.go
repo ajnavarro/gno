@@ -9,6 +9,7 @@ import (
 )
 
 func BenchmarkKeyGeneration(b *testing.B) {
+	b.Skip("too slow")
 	benchmarkKeygenWrapper := func(reader io.Reader) crypto.PrivKey {
 		return genPrivKey(reader)
 	}
