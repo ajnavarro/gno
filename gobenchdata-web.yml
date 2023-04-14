@@ -1,0 +1,5 @@
+title: Gnoland Benchmarks
+description: Benchmarks generated using 'gobenchdata'
+repository: https://github.com/gnoland/gno
+benchmarksFile: benchmarks.json
+chartGroups: []
