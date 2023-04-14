@@ -292,18 +292,18 @@ func runSuite(b *testing.B, d db.DB, initSize, blockSize, keyLen, dataLen int) {
 	b.Run("query-hits", func(sub *testing.B) {
 		runKnownQueries(sub, t, keys)
 	})
-	b.Run("update", func(sub *testing.B) {
-		if strings.Contains(b.Name(), "goleveldb") {
-			b.Skip("it panics with: panic: Orphan expires before it comes alive.  1 > 0")
-		}
-		t = runUpdate(sub, t, dataLen, blockSize, keys)
-	})
-	b.Run("block", func(sub *testing.B) {
-		if strings.Contains(b.Name(), "goleveldb") {
-			b.Skip("it panics with: panic: Orphan expires before it comes alive.  1 > 0")
-		}
-		t = runBlock(sub, t, keyLen, dataLen, blockSize, keys)
-	})
+	if !strings.Contains(b.Name(), "goleveldb") {
+		// it panics with: panic: Orphan expires before it comes alive.  1 > 0
+		b.Run("update", func(sub *testing.B) {
+			t = runUpdate(sub, t, dataLen, blockSize, keys)
+		})
+	}
+	if !strings.Contains(b.Name(), "goleveldb") {
+		// it panics with: panic: Orphan expires before it comes alive.  1 > 0
+		b.Run("block", func(sub *testing.B) {
+			t = runBlock(sub, t, keyLen, dataLen, blockSize, keys)
+		})
+	}
 
 	// both of these edit size of the tree too much
 	// need to run with their own tree
