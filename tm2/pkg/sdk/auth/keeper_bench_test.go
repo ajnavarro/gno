@@ -33,12 +33,12 @@ func BenchmarkAccountMapperGetAccountFound(b *testing.B) {
 func BenchmarkAccountMapperGetAccountFoundWithCoins(b *testing.B) {
 	env := setupTestEnv()
 	coins := std.Coins{
-		std.NewCoin("LTC", int64(1000)),
-		std.NewCoin("BTC", int64(1000)),
-		std.NewCoin("ETH", int64(1000)),
-		std.NewCoin("XRP", int64(1000)),
-		std.NewCoin("BCH", int64(1000)),
-		std.NewCoin("EOS", int64(1000)),
+		std.NewCoin("ltc", int64(1000)),
+		std.NewCoin("btc", int64(1000)),
+		std.NewCoin("eth", int64(1000)),
+		std.NewCoin("xrp", int64(1000)),
+		std.NewCoin("bch", int64(1000)),
+		std.NewCoin("eos", int64(1000)),
 	}
 
 	// assumes b.N < 2**24

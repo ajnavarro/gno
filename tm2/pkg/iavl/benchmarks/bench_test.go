@@ -186,7 +186,7 @@ func BenchmarkMedium(b *testing.B) {
 		{"goleveldb", 100000, 100, 16, 40},
 		// FIXME: this crashes on init! Either remove support, or make it work.
 		// {"cleveldb", 100000, 100, 16, 40},
-		{"leveldb", 100000, 100, 16, 40},
+		{"fsdb", 100000, 100, 16, 40},
 	}
 	runBenchmarks(b, benchmarks)
 }
@@ -197,7 +197,7 @@ func BenchmarkSmall(b *testing.B) {
 		{"goleveldb", 1000, 100, 4, 10},
 		// FIXME: this crashes on init! Either remove support, or make it work.
 		// {"cleveldb", 100000, 100, 16, 40},
-		{"leveldb", 1000, 100, 4, 10},
+		{"fsdb", 1000, 100, 4, 10},
 	}
 	runBenchmarks(b, benchmarks)
 }
@@ -208,7 +208,7 @@ func BenchmarkLarge(b *testing.B) {
 		{"goleveldb", 1000000, 100, 16, 40},
 		// FIXME: this crashes on init! Either remove support, or make it work.
 		// {"cleveldb", 100000, 100, 16, 40},
-		{"leveldb", 1000000, 100, 16, 40},
+		{"fsdb", 1000000, 100, 16, 40},
 	}
 	runBenchmarks(b, benchmarks)
 }
@@ -254,8 +254,9 @@ func runBenchmarks(b *testing.B, benchmarks []benchmark) {
 
 		// note that "" leads to nil backing db!
 		var d db.DB
+		var err error
 		if bb.dbType != "nodb" {
-			d, err := db.NewDB("test", bb.dbType, dirName)
+			d, err = db.NewDB("test", bb.dbType, dirName)
 			require.NoError(b, err)
 			defer d.Close()
 		}
@@ -283,7 +284,7 @@ func runSuite(b *testing.B, d db.DB, initSize, blockSize, keyLen, dataLen int) {
 
 	t, keys := prepareTree(b, d, initSize, keyLen, dataLen)
 	used := memUseMB() - init
-	fmt.Printf("Init Tree took %0.2f MB\n", used)
+	b.Logf("Init Tree took %0.2f MB\n", used)
 
 	b.ResetTimer()
 
