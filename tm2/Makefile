@@ -33,8 +33,12 @@ lint:
 
 ########################################
 # Test suite
+
+GOTEST_FLAGS ?= -v -p 1 -timeout=30m
+
 .PHONY: test
-test: _test.pkg.amino _test.pkg.bft _test.pkg.others _test.flappy
+test: 
+	go test $(GOTEST_FLAGS) ./...
 
 _test.flappy:
 	# flappy tests should work "sometimes" (at least once).
@@ -42,7 +46,6 @@ _test.flappy:
 	TEST_STABILITY=flappy $(rundep) moul.io/testman test -test.v -timeout=20m -retry=10 -run ^TestFlappy \
 		./pkg/bft/consensus ./pkg/bft/blockchain ./pkg/bft/mempool ./pkg/p2p ./pkg/bft/privval
 
-GOTEST_FLAGS ?= -v -p 1 -timeout=30m
 _test.pkg.others:;  go test $(GOTEST_FLAGS) `go list ./pkg/... | grep -v pkg/amino/ | grep -v pkg/bft/`
 _test.pkg.amino:;   go test $(GOTEST_FLAGS) ./pkg/amino/...
 _test.pkg.bft:;	    go test $(GOTEST_FLAGS) ./pkg/bft/...

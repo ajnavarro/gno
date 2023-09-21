@@ -49,16 +49,6 @@ jobs:
         go-version:
           - "1.20.x"
           - "1.21.x"
-        args:
-          - _test.cmd
-          - _test.pkg
-          - _test.gnolang.native
-          - _test.gnolang.stdlibs
-          - _test.gnolang.realm
-          - _test.gnolang.pkg0
-          - _test.gnolang.pkg1
-          - _test.gnolang.pkg2
-          - _test.gnolang.other
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -71,13 +61,13 @@ jobs:
         run: |
           export GOPATH=$HOME/go
           export GOTEST_FLAGS="-v -p 1 -timeout=30m -coverprofile=coverage.out -covermode=atomic"
-          make ${{ matrix.args }}
+          make test
       - if: runner.os == 'Linux'
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           name: gnovm
-          flags: gnovm-${{matrix.args}}
+          flags: goversion-${{matrix.go-version}}
           files: ./gnovm/coverage.out
-          #fail_ci_if_error: ${{ github.repository == 'gnolang/gno' }}
-          fail_ci_if_error: false # temporarily
+          fail_ci_if_error: ${{ github.repository == 'gnolang/gno' }}
+
