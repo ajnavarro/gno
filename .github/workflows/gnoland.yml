@@ -68,6 +68,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           name: gno.land
+          flags: goversion-${{matrix.go-version}}
           files: ./gno.land/coverage.out
           fail_ci_if_error: ${{ github.repository == 'gnolang/gno' }}
 
