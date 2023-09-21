@@ -31,10 +31,12 @@ fmt:
 
 ########################################
 # Test suite
-.PHONY: test
-test: _test.cmd _test.pkg _test.gnolang
 
 GOTEST_FLAGS ?= -v -p 1 -timeout=30m
+
+.PHONY: test
+test: 
+	go test ./... $(GOTEST_FLAGS)
 
 .PHONY: _test.cmd
 _test.cmd:

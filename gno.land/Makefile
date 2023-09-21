@@ -42,10 +42,12 @@ fmt:
 
 ########################################
 # Test suite
-.PHONY: test
-test: _test.gnoland _test.gnoweb _test.gnokey _test.pkgs
 
 GOTEST_FLAGS ?= -v -p 1 -timeout=30m
+
+.PHONY: test
+test: 
+	go test $(GOTEST_FLAGS) ./...
 
 _test.gnoland:; go test $(GOTEST_FLAGS) ./cmd/gnoland
 _test.gnoweb:;  go test $(GOTEST_FLAGS) ./cmd/gnoweb
